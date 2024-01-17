@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{22D4665B
 		tools\FLABS.png = tools\FLABS.png
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flabs.Sample.Configuration", "src\Flabs.Sample.Configuration\Flabs.Sample.Configuration.csproj", "{A736CEA2-EA66-4C1F-BEB3-A325FE9E28FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flabs.Sample.Configuration", "tests\Flabs.Sample.Configuration\Flabs.Sample.Configuration.csproj", "{F2C92B9A-6E5C-40A3-90B5-72DBE771A1B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +22,10 @@ Global
 		{492092B7-4EB3-4260-9508-2C2DA60C2D01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{492092B7-4EB3-4260-9508-2C2DA60C2D01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{492092B7-4EB3-4260-9508-2C2DA60C2D01}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A736CEA2-EA66-4C1F-BEB3-A325FE9E28FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A736CEA2-EA66-4C1F-BEB3-A325FE9E28FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A736CEA2-EA66-4C1F-BEB3-A325FE9E28FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A736CEA2-EA66-4C1F-BEB3-A325FE9E28FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2C92B9A-6E5C-40A3-90B5-72DBE771A1B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2C92B9A-6E5C-40A3-90B5-72DBE771A1B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2C92B9A-6E5C-40A3-90B5-72DBE771A1B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2C92B9A-6E5C-40A3-90B5-72DBE771A1B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
