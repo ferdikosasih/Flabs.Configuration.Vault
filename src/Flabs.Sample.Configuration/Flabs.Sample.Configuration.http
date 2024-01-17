@@ -1,0 +1,6 @@
+@Flabs.Sample.Configuration_HostAddress = http://localhost:5273
+
+GET {{Flabs.Sample.Configuration_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
