@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Flabs.Configuration.Vault\Flabs.Configuration.VaultSharp.Extensions.csproj" />
+    <ProjectReference Include="..\..\src\Flabs.Configuration.Vault\Flabs.Configuration.VaultSharp.Extensions.csproj" />
   </ItemGroup>
 
 </Project>
