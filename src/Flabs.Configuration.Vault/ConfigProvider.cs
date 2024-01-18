@@ -17,18 +17,18 @@ namespace Flabs.Configuration.VaultSharp.Extensions
         private readonly ILogger<ConfigProvider> _logger;
         private readonly INameProvider _nameProvider;
         private readonly IServiceProvider _service;
-        private readonly VaultOptions _vaultOptions;
+        private readonly FlabsConfigOptions _flabsOptions;
         public ConfigProvider(IServiceProvider service
             , INameProvider nameProvider
             , ILogger<ConfigProvider> logger
             , IVaultClient vaultClient
-            , VaultOptions vaultOptions)
+            , FlabsConfigOptions flabsConfigOptions)
         {
             _service = service;
             _nameProvider = nameProvider;
             _logger = logger;
             _vaultClient = vaultClient;
-            _vaultOptions = vaultOptions;
+            _flabsOptions = flabsConfigOptions;
         }
 
         public async Task<bool> LoadFromVaultOrDefaultAsync()
@@ -42,8 +42,8 @@ namespace Flabs.Configuration.VaultSharp.Extensions
             return true;
         }
         public async Task<TConfig> GetConfiguration<TConfig>(
-        CancellationToken cancellationToken = default)
-        where TConfig : class, IConfigurationSet, new()
+            CancellationToken cancellationToken = default)
+            where TConfig : class, IConfigurationSet, new()
         {
             TConfig config = Activator.CreateInstance<TConfig>();
             return await LoadConfig<TConfig>(config);
@@ -57,7 +57,7 @@ namespace Flabs.Configuration.VaultSharp.Extensions
             {
                 var secret = await _vaultClient.V1.Secrets.KeyValue.V2.ReadSecretAsync(
                 path: vaultPath
-                , mountPoint: _vaultOptions.VaultMountPoint);
+                , mountPoint: _flabsOptions.VaultMountPoint);
 
                 SetConfig(config, secret);
             }
@@ -82,7 +82,7 @@ namespace Flabs.Configuration.VaultSharp.Extensions
             {
                 var secret = await _vaultClient.V1.Secrets.KeyValue.V2.ReadSecretAsync(
                 path: vaultPath
-                , mountPoint: _vaultOptions.VaultMountPoint);
+                , mountPoint: _flabsOptions.VaultMountPoint);
 
                 SetConfig(config, secret);
             }
@@ -104,7 +104,7 @@ namespace Flabs.Configuration.VaultSharp.Extensions
             return await _vaultClient.V1.Secrets.KeyValue.V2.WriteSecretAsync(
                 path: vaultPath
                 , config
-                , mountPoint: _vaultOptions.VaultMountPoint);
+                , mountPoint: _flabsOptions.VaultMountPoint);
         }
         private void SetConfig<T>(T config, Secret<SecretData> secret) where T : IConfigurationSet
         {
