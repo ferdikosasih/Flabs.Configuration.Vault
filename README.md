@@ -14,7 +14,7 @@ Configure your own MountPoint in vault KV or default is : flabs.kv
 
 Configure DI using VaultOptions
 ```csharp
-var vaultOptions = new VaultOptions("root", "http://localhost:8200/");
+var flabsConfig = new FlabsConfigOptions("root", "http://localhost:8200/");
 
 builder.Services.AddFlabsConfig(vaultOptions);
 ```
@@ -42,4 +42,4 @@ SampleOptions sampleOpt = _serviceProvider.GetConfig<SampleOptions>();
 ### Features
 * Setup default vault path to {Assembly.Name}/ConfigName
 * Create vault path automatically if not found
-* Next : Add monitor to reload read data from vault
+* Add reload config by background job
