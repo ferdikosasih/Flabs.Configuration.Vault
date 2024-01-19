@@ -12,11 +12,11 @@ Flabs.Configuration.Vault is an extension that using vault as configuration.
 
 Configure your own MountPoint in vault KV or default is : flabs.kv
 
-Configure DI using VaultOptions
+Configure DI using FlabsConfigOptions
 ```csharp
 var flabsConfig = new FlabsConfigOptions("root", "http://localhost:8200/");
 
-builder.Services.AddFlabsConfig(vaultOptions);
+builder.Services.AddFlabsConfig(FlabsConfigOptions);
 ```
 
 Configure DI by Environment variables
