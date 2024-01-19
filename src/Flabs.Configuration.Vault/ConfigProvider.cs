@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,25 +17,22 @@ namespace Flabs.Configuration.VaultSharp.Extensions
         private readonly IVaultClient _vaultClient;
         private readonly ILogger<ConfigProvider> _logger;
         private readonly INameProvider _nameProvider;
-        private readonly IServiceProvider _service;
-        private readonly VaultOptions _vaultOptions;
-        public ConfigProvider(IServiceProvider service
-            , INameProvider nameProvider
+        private readonly FlabsConfigOptions _vaultOptions;
+        public ConfigProvider(
+            INameProvider nameProvider
             , ILogger<ConfigProvider> logger
             , IVaultClient vaultClient
-            , VaultOptions vaultOptions)
+            , FlabsConfigOptions vaultOptions)
         {
-            _service = service;
             _nameProvider = nameProvider;
             _logger = logger;
             _vaultClient = vaultClient;
             _vaultOptions = vaultOptions;
         }
 
-        public async Task<bool> LoadFromVaultOrDefaultAsync()
+        public async Task<bool> LoadFromVaultOrDefaultAsync(IEnumerable<IConfigurationSet> configurationSets)
         {
-            var configSets = _service.GetServices<IConfigurationSet>();
-            foreach (var config in configSets)
+            foreach (var config in configurationSets)
             {
                 _logger.LogInformation($"Loads config from vault : {config.GetType().Name}");
                 await LoadFromVault(config);

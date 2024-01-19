@@ -2,7 +2,7 @@ using Flabs.Configuration.VaultSharp.Extensions;
 
 namespace Flabs.Sample.Configuration
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
@@ -15,9 +15,9 @@ namespace Flabs.Sample.Configuration
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var vaultOptions = new VaultOptions("root", "http://localhost:8200/");
+            var flabsOption = new FlabsConfigOptions("root", "http://localhost:8200/");
 
-            builder.Services.AddFlabsConfig(vaultOptions);
+            builder.Services.AddFlabsConfig(flabsOption);
             builder.Services.AddConfigOptions<SampleOptions>();
             var app = builder.Build();
 
