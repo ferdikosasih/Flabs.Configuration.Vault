@@ -54,7 +54,11 @@ namespace Flabs.Configuration.VaultSharp.Extensions
         private void InitializeConfigurationSets()
         {
             var assembly = Assembly.GetEntryAssembly();
-            var types = assembly.GetTypes();
+            var types = assembly?.GetTypes();
+            if (types is null)
+            {
+                throw new InvalidOperationException("Unable to get assembly entry");
+            }
 
             var configurationTypeSets = types
                 .Where(type => typeof(IConfigurationSet).IsAssignableFrom(type) && type.IsClass);

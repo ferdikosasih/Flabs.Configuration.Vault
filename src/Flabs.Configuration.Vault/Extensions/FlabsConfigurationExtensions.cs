@@ -46,19 +46,6 @@ namespace Flabs.Configuration.VaultSharp.Extensions
             FlabsConfigOptions options = new FlabsConfigOptions(vaultToken,vaultAddress);
             return AddFlabsConfig(services,options);
         }
-        private static IServiceCollection RegisterConfigurationSet(this IServiceCollection services)
-        {
-            var assembly = Assembly.GetEntryAssembly();
-            var types = assembly.GetTypes();
-            
-            var configurationSets = types
-                .Where(type => typeof(IConfigurationSet).IsAssignableFrom(type) && type.IsClass);
-            foreach (var type in configurationSets)
-            {
-                services.AddSingleton(type);
-            }
-            return services;
-        }
         public static IServiceCollection AddConfigOptions<TConfig>(this IServiceCollection services)
             where TConfig : class, IConfigurationSet, new()
         {
