@@ -14,7 +14,7 @@
             , string vaultAddress
             , string mountPoint = "flabs.kv"
             , bool isNeedReload = true
-            , int reloadTimeMinute = 60)
+            , int reloadTimeMinute = 1)
         {
             VaultToken = vaultToken;
             VaultAddress = vaultAddress;

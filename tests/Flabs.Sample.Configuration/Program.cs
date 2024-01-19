@@ -15,11 +15,14 @@ namespace Flabs.Sample.Configuration
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            //var vaultOptions = new VaultOptions("root", "http://localhost:8200/");
-            //builder.Services.AddFlabsConfig(vaultOptions);
+            var flabsOptions = new FlabsConfigOptions("root", "http://localhost:8200/");
+            builder.Services.AddFlabsConfig(flabsOptions);
 
-            builder.Services.AddFlabsConfig();
-            builder.Services.AddConfigOptions<SampleOptions>();
+            builder.Services
+                //.AddFlabsConfig()
+                .AddConfigOptions<SampleOptions>()
+                .AddConfigOptions<Sample2Options>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

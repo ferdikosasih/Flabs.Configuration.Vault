@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,24 +16,26 @@ namespace Flabs.Configuration.VaultSharp.Extensions
         private readonly IVaultClient _vaultClient;
         private readonly ILogger<ConfigProvider> _logger;
         private readonly INameProvider _nameProvider;
-        private readonly IServiceProvider _service;
         private readonly FlabsConfigOptions _flabsOptions;
-        public ConfigProvider(IServiceProvider service
-            , INameProvider nameProvider
+        public ConfigProvider(
+            INameProvider nameProvider
             , ILogger<ConfigProvider> logger
             , IVaultClient vaultClient
             , FlabsConfigOptions flabsConfigOptions)
         {
-            _service = service;
             _nameProvider = nameProvider;
             _logger = logger;
             _vaultClient = vaultClient;
             _flabsOptions = flabsConfigOptions;
         }
 
-        public async Task<bool> LoadFromVaultOrDefaultAsync()
+        public async Task<bool> LoadFromVaultOrDefaultAsync(IEnumerable<IConfigurationSet>? configSets)
         {
-            var configSets = _service.GetServices<IConfigurationSet>();
+            if (configSets == null)
+            {
+                return true;
+            }
+
             foreach (var config in configSets)
             {
                 _logger.LogInformation($"Loads config from vault : {config.GetType().Name}");
