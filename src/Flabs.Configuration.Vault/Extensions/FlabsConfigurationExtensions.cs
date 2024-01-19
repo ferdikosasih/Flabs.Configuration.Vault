@@ -1,6 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using System;
+using System.Linq;
+using System.Reflection;
 using VaultSharp;
 using VaultSharp.V1.AuthMethods.Token;
 
@@ -10,7 +15,7 @@ namespace Flabs.Configuration.VaultSharp.Extensions
     {
         public static IServiceCollection AddFlabsConfig(
             this IServiceCollection services
-            , VaultOptions options)
+            , FlabsConfigOptions options)
         {
             services
                 .AddSingleton<INameProvider, NameProvider>()
@@ -21,7 +26,9 @@ namespace Flabs.Configuration.VaultSharp.Extensions
                     var setting = new VaultClientSettings(options.VaultAddress, token);
                     return new VaultClient(setting);
                 })
-                .AddSingleton<IConfigProvider, ConfigProvider>();
+                .AddSingleton<IConfigProvider, ConfigProvider>()
+                //.RegisterConfigurationSet()
+                .AddHostedService<ConfigLoadService>();
             return services;
         }
         public static IServiceCollection AddFlabsConfig(this IServiceCollection services)
@@ -36,18 +43,26 @@ namespace Flabs.Configuration.VaultSharp.Extensions
             {
                 throw new InvalidOperationException($"Unable to get vault environment variable {VaultEnvironmentName.VAULT_ADDR} ");
             }
-            VaultOptions options = new VaultOptions(vaultToken,vaultAddress);
+            FlabsConfigOptions options = new FlabsConfigOptions(vaultToken,vaultAddress);
             return AddFlabsConfig(services,options);
         }
-        public static IServiceCollection AddConfigOptions<TConfig>(
-        this IServiceCollection services)
-        where TConfig : class, IConfigurationSet, new()
+        private static IServiceCollection RegisterConfigurationSet(this IServiceCollection services)
         {
-            services.TryAddSingleton<TConfig>(sp =>
+            var assembly = Assembly.GetEntryAssembly();
+            var types = assembly.GetTypes();
+            
+            var configurationSets = types
+                .Where(type => typeof(IConfigurationSet).IsAssignableFrom(type) && type.IsClass);
+            foreach (var type in configurationSets)
             {
-                var configProvider = sp.GetRequiredService<IConfigProvider>();
-                return configProvider.GetConfiguration<TConfig>().GetAwaiter().GetResult();
-            });
+                services.AddSingleton(type);
+            }
+            return services;
+        }
+        public static IServiceCollection AddConfigOptions<TConfig>(this IServiceCollection services)
+            where TConfig : class, IConfigurationSet, new()
+        {
+            services.AddSingleton<TConfig>();
             return services;
         }
         public static T GetConfig<T>(this IServiceProvider serviceProvider) where T : IConfigurationSet
