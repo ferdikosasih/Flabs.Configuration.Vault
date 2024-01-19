@@ -16,7 +16,7 @@ Configure DI using FlabsConfigOptions
 ```csharp
 var flabsConfig = new FlabsConfigOptions("root", "http://localhost:8200/");
 
-builder.Services.AddFlabsConfig(FlabsConfigOptions);
+builder.Services.AddFlabsConfig(flabsConfig);
 ```
 
 Configure DI by Environment variables
