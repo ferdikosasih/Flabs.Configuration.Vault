@@ -2,7 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using System;
+using System.Linq;
+using System.Reflection;
 using VaultSharp;
 using VaultSharp.V1.AuthMethods.Token;
 
@@ -24,6 +27,7 @@ namespace Flabs.Configuration.VaultSharp.Extensions
                     return new VaultClient(setting);
                 })
                 .AddSingleton<IConfigProvider, ConfigProvider>()
+                //.RegisterConfigurationSet()
                 .AddHostedService<ConfigLoadService>();
             return services;
         }
@@ -42,11 +46,23 @@ namespace Flabs.Configuration.VaultSharp.Extensions
             FlabsConfigOptions options = new FlabsConfigOptions(vaultToken,vaultAddress);
             return AddFlabsConfig(services,options);
         }
-        public static IServiceCollection AddConfigOptions<TConfig>(
-            this IServiceCollection services)
+        private static IServiceCollection RegisterConfigurationSet(this IServiceCollection services)
+        {
+            var assembly = Assembly.GetEntryAssembly();
+            var types = assembly.GetTypes();
+            
+            var configurationSets = types
+                .Where(type => typeof(IConfigurationSet).IsAssignableFrom(type) && type.IsClass);
+            foreach (var type in configurationSets)
+            {
+                services.AddSingleton(type);
+            }
+            return services;
+        }
+        public static IServiceCollection AddConfigOptions<TConfig>(this IServiceCollection services)
             where TConfig : class, IConfigurationSet, new()
         {
-            services.TryAddSingleton<IConfigurationSet, TConfig>();
+            services.AddSingleton<TConfig>();
             return services;
         }
         public static T GetConfig<T>(this IServiceProvider serviceProvider) where T : IConfigurationSet

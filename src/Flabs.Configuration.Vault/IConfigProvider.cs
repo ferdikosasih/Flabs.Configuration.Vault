@@ -9,7 +9,7 @@ namespace Flabs.Configuration.VaultSharp.Extensions
 {
     public interface IConfigProvider
     {
-        Task<bool> LoadFromVaultOrDefaultAsync();
+        Task<bool> LoadFromVaultOrDefaultAsync(IEnumerable<IConfigurationSet>? configSets);
         Task<TConfig> GetConfiguration<TConfig>(CancellationToken cancellationToken = default)
             where TConfig : class, IConfigurationSet, new();
     }
