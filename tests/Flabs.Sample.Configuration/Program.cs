@@ -15,11 +15,16 @@ namespace Flabs.Sample.Configuration
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var flabsOptions = new FlabsConfigOptions("root", "http://localhost:8200/");
-            builder.Services.AddFlabsConfig(flabsOptions);
+            //var flabsOptions = new FlabsConfigOptions("root", "http://localhost:8200/");
+            //builder.Services.AddFlabsConfig(flabsOptions);
+            builder.Services.AddFlabsConfig(options =>
+            {
+                options.VaultToken = "root";
+                options.VaultAddress = "http://localhost:8200/";
+                options.ReloadTimeMinute = 60;
+            });
 
             builder.Services
-                //.AddFlabsConfig()
                 .AddConfigOptions<SampleOptions>()
                 .AddConfigOptions<Sample2Options>();
 
