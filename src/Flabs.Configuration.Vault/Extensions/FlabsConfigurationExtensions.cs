@@ -46,6 +46,18 @@ namespace Flabs.Configuration.VaultSharp.Extensions
             FlabsConfigOptions options = new FlabsConfigOptions(vaultToken,vaultAddress);
             return AddFlabsConfig(services,options);
         }
+        public static IServiceCollection AddFlabsConfig(this IServiceCollection services, Action<FlabsConfigOptions> configureOptions)
+        {
+            if (configureOptions == null)
+            {
+                throw new ArgumentNullException(nameof(configureOptions));
+            }
+
+            var opt = new FlabsConfigOptions("","");
+            configureOptions(opt);
+
+            return AddFlabsConfig(services, opt);
+        }
         public static IServiceCollection AddConfigOptions<TConfig>(this IServiceCollection services)
             where TConfig : class, IConfigurationSet, new()
         {
