@@ -1,14 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Label="Build">
-    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Flabs.Configuration.VaultSharp.Extensions</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
     <Authors>Ferdinand Kosasih</Authors>
-    <PackageIcon>FLABS.png</PackageIcon>
     <Title>Flabs.Configuration.VaultSharp.Extensions</Title>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <TargetFrameworks>net6.0;net7.0;net8.0;netstandard2.1</TargetFrameworks>
@@ -22,9 +20,15 @@
       This library is built with .NET Standard 2.0, 2.1, .NET 6, .NET 7, .NET 8
     </Description>
     <PackageTags>Vault;Configuration;Hashicorp</PackageTags>
+    <PackageVersion>1.0.1</PackageVersion>
+    <PackageIcon>FLABS.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\asset\FLABS.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\..\Readme.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -38,6 +42,12 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.1" />
     <PackageReference Include="VaultSharp" Version="1.13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="FLABS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
